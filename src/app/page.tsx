@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import SurveyForm from '@/components/SurveyForm';
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
         <p className="subtle">共有URLに formId クエリ（例: ?formId=team-2026Q2）を付けるとアンケートを識別できます。</p>
         <p className="subtle">最終送信時に GitHub API へ Markdown を保存します（確認画面で保存先を設定）。</p>
       </header>
-      <SurveyForm />
+      <Suspense fallback={<div className="card">読み込み中...</div>}><SurveyForm /></Suspense>
     </main>
   );
 }
