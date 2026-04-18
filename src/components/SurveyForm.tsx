@@ -42,10 +42,18 @@ export default function SurveyForm() {
   const isLast = step === grouped.length - 1;
 
   const updateAnswer = (id: string, value: ChoiceValue) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [id]: prev[id] === value ? undefined : value,
-    }));
+    setAnswers((prev) => {
+      if (prev[id] === value) {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      }
+
+      return {
+        ...prev,
+        [id]: value,
+      };
+    });
   };
 
   const goConfirm = () => {
