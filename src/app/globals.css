@@ -165,3 +165,31 @@ textarea {
   display: flex;
   gap: 16px;
 }
+
+input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+}
+
+.formGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.formGrid label {
+  display: block;
+}
+
+.formGrid .wide {
+  grid-column: 1 / -1;
+}
+
+.errorCard {
+  border-color: #ef4444;
+}
