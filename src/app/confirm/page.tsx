@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CATEGORY_LABELS, FREE_TEXT_FIELDS, QUESTIONS, type Category } from '@/data/questions';
-import type { SubmissionPayload } from '@/lib/types';
+import type { StoredSubmission, SubmissionPayload } from '@/lib/types';
 
 const CATEGORIES = Object.keys(CATEGORY_LABELS) as Category[];
 const LABEL_MAP: Record<string, string> = {
@@ -46,21 +46,18 @@ export default function ConfirmPage() {
   const submit = async () => {
     if (!draft) return;
     setSubmitting(true);
-    const response = await fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(draft),
-    });
 
-    if (!response.ok) {
-      setSubmitting(false);
-      alert('送信に失敗しました。時間をおいて再試行してください。');
-      return;
-    }
-
-    const result = (await response.json()) as { id: string };
+    const saved: StoredSubmission = {
+      ...draft,
+      id: crypto.randomUUID(),
+      submittedAt: new Date().toISOString(),
+    };
+    const raw = localStorage.getItem('surveySubmissions');
+    const submissions = raw ? (JSON.parse(raw) as StoredSubmission[]) : [];
+    submissions.push(saved);
+    localStorage.setItem('surveySubmissions', JSON.stringify(submissions));
     localStorage.removeItem('surveyDraft');
-    router.push(`/thanks?id=${result.id}`);
+    router.push(`/thanks?id=${saved.id}`);
   };
 
   if (!draft) {
