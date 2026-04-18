@@ -12,6 +12,7 @@ export default function Home() {
           <li>最終カテゴリで自由記述を入力し「入力完了」へ</li>
         </ol>
         <p className="subtle">共有URLに formId クエリ（例: ?formId=team-2026Q2）を付けるとアンケートを識別できます。</p>
+        <p className="subtle">最終送信時に GitHub API へ Markdown を保存します（確認画面で保存先を設定）。</p>
       </header>
       <SurveyForm />
     </main>
