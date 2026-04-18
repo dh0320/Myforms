@@ -1,0 +1,167 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #d1d5db;
+  --primary: #1d4ed8;
+  --primaryText: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1020;
+    --card: #121a2d;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --border: #334155;
+    --primary: #3b82f6;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 16px 16px 96px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.subtle,
+.qid,
+.chip {
+  color: var(--muted);
+}
+
+.chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.questionList {
+  display: grid;
+  gap: 12px;
+}
+
+.question {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.options {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(44px, 1fr));
+  gap: 10px;
+}
+
+button,
+.option {
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: inherit;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.option.selected,
+button.primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primaryText);
+  font-weight: 600;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+}
+
+.textareaWrap {
+  display: block;
+  margin-top: 12px;
+}
+
+.bottomNav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 12px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--border);
+}
+
+.bottomNav > button {
+  flex: 1;
+}
+
+.staticNav {
+  position: static;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.answerList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.answerList li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.answerList.vertical li {
+  flex-direction: column;
+}
+
+.textLink {
+  color: var(--primary);
+  text-underline-offset: 3px;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+}
