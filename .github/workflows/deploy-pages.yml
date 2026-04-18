@@ -2,7 +2,7 @@ name: Deploy Next.js site to Pages
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'work']
   workflow_dispatch:
 
 permissions:
@@ -20,6 +20,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Validate repository visibility
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: repo } = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            if (repo.private) {
+              core.setFailed(
+                'This repository is private. Set repository visibility to Public before deploying to a public GitHub Pages URL.'
+              );
+            }
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
