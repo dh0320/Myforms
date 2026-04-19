@@ -169,7 +169,8 @@ button.primary:hover:not(:disabled) {
   font-size: 20px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .option:hover {
@@ -183,6 +184,10 @@ button.primary:hover:not(:disabled) {
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transform: scale(1.06);
+}
+
+.option:active {
+  opacity: 0.8;
 }
 
 button:disabled {
