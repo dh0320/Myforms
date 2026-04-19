@@ -14,6 +14,16 @@ import type { FreeTextAnswers, SurveyAnswers } from '@/lib/types';
 
 const CATEGORIES = Object.keys(CATEGORY_LABELS) as Category[];
 
+const CATEGORY_COLORS: Record<Category, string> = {
+  A: '#3b82f6',
+  B: '#8b5cf6',
+  C: '#0891b2',
+  D: '#059669',
+  E: '#d97706',
+  F: '#db2777',
+  G: '#6366f1',
+};
+
 const blankFreeText = (): FreeTextAnswers => ({
   additionalRequests: '',
   notDelegatedToAI: '',
@@ -68,9 +78,14 @@ export default function SurveyForm() {
     router.push('/confirm');
   };
 
+  const catColor = CATEGORY_COLORS[current.category];
+
   return (
     <section className="survey">
-      <div className="card">
+      <div className="card categoryCard" style={{ '--cat-color': catColor } as React.CSSProperties}>
+        <div className="progressWrap">
+          <div className="progressFill" style={{ width: `${((step + 1) / grouped.length) * 100}%` }} />
+        </div>
         <p className="chip">{`カテゴリ ${step + 1} / ${grouped.length}`}</p>
         <h2>{current.title}</h2>
         <div className="questionList">
@@ -85,7 +100,7 @@ export default function SurveyForm() {
                     <button
                       type="button"
                       key={option.value}
-                      className={selected ? 'option selected' : 'option'}
+                      className={`option option-${option.value}${selected ? ' selected' : ''}`}
                       onClick={() => updateAnswer(question.id, option.value)}
                     >
                       {option.label}
