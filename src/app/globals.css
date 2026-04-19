@@ -177,35 +177,11 @@ button.primary:hover:not(:disabled) {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-.option-double.selected {
-  background: #16a34a;
-  border-color: #16a34a;
+.option.selected {
+  background: var(--primary);
+  border-color: var(--primary);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
-  transform: scale(1.06);
-}
-
-.option-circle.selected {
-  background: #2563eb;
-  border-color: #2563eb;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
-  transform: scale(1.06);
-}
-
-.option-triangle.selected {
-  background: #d97706;
-  border-color: #d97706;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
-  transform: scale(1.06);
-}
-
-.option-cross.selected {
-  background: #6b7280;
-  border-color: #6b7280;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transform: scale(1.06);
 }
 

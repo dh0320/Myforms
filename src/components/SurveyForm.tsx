@@ -100,7 +100,7 @@ export default function SurveyForm() {
                     <button
                       type="button"
                       key={option.value}
-                      className={`option option-${option.value}${selected ? ' selected' : ''}`}
+                      className={`option${selected ? ' selected' : ''}`}
                       onClick={() => updateAnswer(question.id, option.value)}
                     >
                       {option.label}
@@ -135,7 +135,11 @@ export default function SurveyForm() {
       )}
 
       <nav className="bottomNav" aria-label="カテゴリナビゲーション">
-        <button type="button" onClick={() => setStep((s) => Math.max(s - 1, 0))} disabled={step === 0}>
+        <button
+          type="button"
+          onClick={() => { setStep((s) => Math.max(s - 1, 0)); window.scrollTo({ top: 0 }); }}
+          disabled={step === 0}
+        >
           戻る
         </button>
         {isLast ? (
@@ -143,7 +147,11 @@ export default function SurveyForm() {
             入力完了
           </button>
         ) : (
-          <button type="button" className="primary" onClick={() => setStep((s) => Math.min(s + 1, grouped.length - 1))}>
+          <button
+            type="button"
+            className="primary"
+            onClick={() => { setStep((s) => Math.min(s + 1, grouped.length - 1)); window.scrollTo({ top: 0 }); }}
+          >
             次へ
           </button>
         )}
