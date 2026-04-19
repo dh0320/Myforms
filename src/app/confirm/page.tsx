@@ -17,11 +17,15 @@ const LABEL_MAP: Record<string, string> = {
 
 const CONFIG_KEY = 'githubSubmissionConfig';
 
-const initialConfig: GithubSubmissionConfig = {
-  owner: '',
-  repo: '',
+const PRESET: Omit<GithubSubmissionConfig, 'token'> = {
+  owner: 'dh0320',
+  repo: 'myforms',
   branch: 'main',
   folder: 'responses',
+};
+
+const initialConfig: GithubSubmissionConfig = {
+  ...PRESET,
   token: '',
 };
 
@@ -108,56 +112,65 @@ export default function ConfirmPage() {
         </Link>
       </section>
 
-      <section className="card">
+      <section className="card githubCard">
         <h2>GitHub保存先設定</h2>
-        <p className="subtle">送信時に Markdown ファイルを GitHub リポジトリに作成します（GitHub Pages でも動作）。</p>
+        <div className="githubDest">
+          <span className="githubRepo">{config.owner}/{config.repo}</span>
+          <span className="githubPath">{config.branch} / {config.folder}/</span>
+        </div>
         <div className="formGrid">
-          <label>
-            Owner
-            <input
-              type="text"
-              value={config.owner}
-              onChange={(e) => setConfig((prev) => ({ ...prev, owner: e.target.value }))}
-              placeholder="example-org"
-            />
-          </label>
-          <label>
-            Repository
-            <input
-              type="text"
-              value={config.repo}
-              onChange={(e) => setConfig((prev) => ({ ...prev, repo: e.target.value }))}
-              placeholder="survey-replies"
-            />
-          </label>
-          <label>
-            Branch
-            <input
-              type="text"
-              value={config.branch}
-              onChange={(e) => setConfig((prev) => ({ ...prev, branch: e.target.value }))}
-              placeholder="main"
-            />
-          </label>
-          <label>
-            回答格納フォルダ
-            <input
-              type="text"
-              value={config.folder}
-              onChange={(e) => setConfig((prev) => ({ ...prev, folder: e.target.value }))}
-              placeholder="responses"
-            />
-          </label>
           <label className="wide">
-            GitHub Token (repo 内容への書き込み権限)
+            GitHub Token（repo 書き込み権限）
             <input
               type="password"
               value={config.token}
               onChange={(e) => setConfig((prev) => ({ ...prev, token: e.target.value }))}
               placeholder="github_pat_xxx"
+              autoComplete="current-password"
             />
           </label>
         </div>
+        <details>
+          <summary className="configToggle">送信先を変更する</summary>
+          <div className="formGrid advancedConfig">
+            <label>
+              Owner
+              <input
+                type="text"
+                value={config.owner}
+                onChange={(e) => setConfig((prev) => ({ ...prev, owner: e.target.value }))}
+                placeholder="example-org"
+              />
+            </label>
+            <label>
+              Repository
+              <input
+                type="text"
+                value={config.repo}
+                onChange={(e) => setConfig((prev) => ({ ...prev, repo: e.target.value }))}
+                placeholder="survey-replies"
+              />
+            </label>
+            <label>
+              Branch
+              <input
+                type="text"
+                value={config.branch}
+                onChange={(e) => setConfig((prev) => ({ ...prev, branch: e.target.value }))}
+                placeholder="main"
+              />
+            </label>
+            <label>
+              回答格納フォルダ
+              <input
+                type="text"
+                value={config.folder}
+                onChange={(e) => setConfig((prev) => ({ ...prev, folder: e.target.value }))}
+                placeholder="responses"
+              />
+            </label>
+          </div>
+        </details>
       </section>
 
       {grouped.map((group) => (
