@@ -115,54 +115,6 @@ export default function ConfirmPage() {
         </Link>
       </section>
 
-      <section className="card githubCard">
-        <h2>GitHub保存先設定</h2>
-        <div className="githubDest">
-          <span className="githubRepo">{dest.owner}/{dest.repo}</span>
-          <span className="githubPath">{dest.branch} / {dest.folder}/</span>
-        </div>
-        <details>
-          <summary className="configToggle">送信先を変更する</summary>
-          <div className="formGrid advancedConfig">
-            <label>
-              Owner
-              <input
-                type="text"
-                value={dest.owner}
-                onChange={(e) => setDest((prev) => ({ ...prev, owner: e.target.value }))}
-                placeholder="example-org"
-              />
-            </label>
-            <label>
-              Repository
-              <input
-                type="text"
-                value={dest.repo}
-                onChange={(e) => setDest((prev) => ({ ...prev, repo: e.target.value }))}
-                placeholder="survey-replies"
-              />
-            </label>
-            <label>
-              Branch
-              <input
-                type="text"
-                value={dest.branch}
-                onChange={(e) => setDest((prev) => ({ ...prev, branch: e.target.value }))}
-                placeholder="main"
-              />
-            </label>
-            <label>
-              回答格納フォルダ
-              <input
-                type="text"
-                value={dest.folder}
-                onChange={(e) => setDest((prev) => ({ ...prev, folder: e.target.value }))}
-                placeholder="responses"
-              />
-            </label>
-          </div>
-        </details>
-      </section>
 
       {grouped.map((group) => (
         <section key={group.category} className="card">
