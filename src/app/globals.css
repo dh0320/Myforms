@@ -107,15 +107,20 @@ body {
   transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
 
-.question:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .question:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   .question {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   }
+}
+
+@media (hover: hover) and (prefers-color-scheme: dark) {
   .question:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
   }
@@ -137,12 +142,16 @@ button {
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-button:hover:not(:disabled) {
-  border-color: var(--primary);
-  background: color-mix(in srgb, var(--primary) 6%, transparent);
+@media (hover: hover) {
+  button:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 6%, transparent);
+  }
 }
 
 button.primary {
@@ -153,10 +162,17 @@ button.primary {
   box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
-button.primary:hover:not(:disabled) {
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 45%, transparent);
-  filter: brightness(1.08);
-  background: var(--primary);
+@media (hover: hover) {
+  button.primary:hover:not(:disabled) {
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 45%, transparent);
+    filter: brightness(1.08);
+    background: var(--primary);
+  }
+}
+
+button.primary:active:not(:disabled) {
+  filter: brightness(0.95);
+  transform: translateY(1px);
 }
 
 .option {
@@ -169,13 +185,17 @@ button.primary:hover:not(:disabled) {
   font-size: 20px;
   font-weight: 700;
   cursor: pointer;
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 }
 
-.option:hover {
-  transform: scale(1.06);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+@media (hover: hover) {
+  .option:hover:not(.selected) {
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .option.selected {
@@ -186,8 +206,15 @@ button.primary:hover:not(:disabled) {
   transform: scale(1.06);
 }
 
-.option:active {
-  opacity: 0.8;
+.option:active:not(.selected) {
+  transform: scale(0.96);
+  background: color-mix(in srgb, var(--primary) 10%, var(--card));
+  border-color: var(--primary);
+}
+
+.option.selected:active {
+  transform: scale(1.02);
+  filter: brightness(0.95);
 }
 
 button:disabled {
