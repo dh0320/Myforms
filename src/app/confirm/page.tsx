@@ -17,6 +17,8 @@ const LABEL_MAP: Record<string, string> = {
 
 const CONFIG_KEY = 'githubSubmissionConfig';
 
+const ENV_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN ?? '';
+
 const PRESET: Omit<GithubSubmissionConfig, 'token'> = {
   owner: 'dh0320',
   repo: 'myforms',
@@ -24,17 +26,12 @@ const PRESET: Omit<GithubSubmissionConfig, 'token'> = {
   folder: 'responses',
 };
 
-const initialConfig: GithubSubmissionConfig = {
-  ...PRESET,
-  token: '',
-};
-
 export default function ConfirmPage() {
   const router = useRouter();
   const [draft, setDraft] = useState<SubmissionPayload | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [config, setConfig] = useState<GithubSubmissionConfig>(initialConfig);
+  const [dest, setDest] = useState<Omit<GithubSubmissionConfig, 'token'>>(PRESET);
 
   useEffect(() => {
     const saved = localStorage.getItem('surveyDraft');
@@ -47,7 +44,8 @@ export default function ConfirmPage() {
 
     const savedConfig = localStorage.getItem(CONFIG_KEY);
     if (savedConfig) {
-      setConfig((prev) => ({ ...prev, ...(JSON.parse(savedConfig) as GithubSubmissionConfig) }));
+      const parsed = JSON.parse(savedConfig) as Partial<Omit<GithubSubmissionConfig, 'token'>>;
+      setDest((prev) => ({ ...prev, ...parsed }));
     }
   }, [router]);
 
@@ -68,6 +66,10 @@ export default function ConfirmPage() {
 
   const submit = async () => {
     if (!draft) return;
+    if (!ENV_TOKEN) {
+      setSubmitError('GitHub Token が設定されていません。管理者にお問い合わせください。');
+      return;
+    }
     setSubmitting(true);
     setSubmitError('');
 
@@ -78,8 +80,9 @@ export default function ConfirmPage() {
     };
 
     try {
-      localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+      localStorage.setItem(CONFIG_KEY, JSON.stringify(dest));
 
+      const config: GithubSubmissionConfig = { ...dest, token: ENV_TOKEN };
       const result = await submitMarkdownToGitHub(config, saved);
 
       const raw = localStorage.getItem('surveySubmissions');
@@ -115,20 +118,8 @@ export default function ConfirmPage() {
       <section className="card githubCard">
         <h2>GitHub保存先設定</h2>
         <div className="githubDest">
-          <span className="githubRepo">{config.owner}/{config.repo}</span>
-          <span className="githubPath">{config.branch} / {config.folder}/</span>
-        </div>
-        <div className="formGrid">
-          <label className="wide">
-            GitHub Token（repo 書き込み権限）
-            <input
-              type="password"
-              value={config.token}
-              onChange={(e) => setConfig((prev) => ({ ...prev, token: e.target.value }))}
-              placeholder="github_pat_xxx"
-              autoComplete="current-password"
-            />
-          </label>
+          <span className="githubRepo">{dest.owner}/{dest.repo}</span>
+          <span className="githubPath">{dest.branch} / {dest.folder}/</span>
         </div>
         <details>
           <summary className="configToggle">送信先を変更する</summary>
@@ -137,8 +128,8 @@ export default function ConfirmPage() {
               Owner
               <input
                 type="text"
-                value={config.owner}
-                onChange={(e) => setConfig((prev) => ({ ...prev, owner: e.target.value }))}
+                value={dest.owner}
+                onChange={(e) => setDest((prev) => ({ ...prev, owner: e.target.value }))}
                 placeholder="example-org"
               />
             </label>
@@ -146,8 +137,8 @@ export default function ConfirmPage() {
               Repository
               <input
                 type="text"
-                value={config.repo}
-                onChange={(e) => setConfig((prev) => ({ ...prev, repo: e.target.value }))}
+                value={dest.repo}
+                onChange={(e) => setDest((prev) => ({ ...prev, repo: e.target.value }))}
                 placeholder="survey-replies"
               />
             </label>
@@ -155,8 +146,8 @@ export default function ConfirmPage() {
               Branch
               <input
                 type="text"
-                value={config.branch}
-                onChange={(e) => setConfig((prev) => ({ ...prev, branch: e.target.value }))}
+                value={dest.branch}
+                onChange={(e) => setDest((prev) => ({ ...prev, branch: e.target.value }))}
                 placeholder="main"
               />
             </label>
@@ -164,8 +155,8 @@ export default function ConfirmPage() {
               回答格納フォルダ
               <input
                 type="text"
-                value={config.folder}
-                onChange={(e) => setConfig((prev) => ({ ...prev, folder: e.target.value }))}
+                value={dest.folder}
+                onChange={(e) => setDest((prev) => ({ ...prev, folder: e.target.value }))}
                 placeholder="responses"
               />
             </label>
