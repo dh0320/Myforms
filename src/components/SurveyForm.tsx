@@ -52,6 +52,9 @@ export default function SurveyForm() {
   const isLast = step === grouped.length - 1;
 
   const updateAnswer = (id: string, value: ChoiceValue) => {
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      navigator.vibrate(8);
+    }
     setAnswers((prev) => {
       if (prev[id] === value) {
         const next = { ...prev };
@@ -137,7 +140,10 @@ export default function SurveyForm() {
       <nav className="bottomNav" aria-label="カテゴリナビゲーション">
         <button
           type="button"
-          onClick={() => { setStep((s) => Math.max(s - 1, 0)); window.scrollTo({ top: 0 }); }}
+          onClick={() => {
+            setStep((s) => Math.max(s - 1, 0));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           disabled={step === 0}
         >
           戻る
@@ -150,7 +156,10 @@ export default function SurveyForm() {
           <button
             type="button"
             className="primary"
-            onClick={() => { setStep((s) => Math.min(s + 1, grouped.length - 1)); window.scrollTo({ top: 0 }); }}
+            onClick={() => {
+              setStep((s) => Math.min(s + 1, grouped.length - 1));
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           >
             次へ
           </button>
