@@ -25,7 +25,6 @@ const CATEGORY_COLORS: Record<Category, string> = {
 };
 
 const blankFreeText = (): FreeTextAnswers => ({
-  additionalRequests: '',
   notDelegatedToAI: '',
   desiredTeamFeature: '',
 });

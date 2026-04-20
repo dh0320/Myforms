@@ -116,7 +116,6 @@ export const CHOICE_OPTIONS = [
 export type ChoiceValue = (typeof CHOICE_OPTIONS)[number]['value'];
 
 export const FREE_TEXT_FIELDS = [
-  { key: 'additionalRequests', label: '実際に使うシーン（任意）' },
   { key: 'notDelegatedToAI', label: '「こうだったらもっといい」（任意）' },
   { key: 'desiredTeamFeature', label: 'その他コメント（任意）' },
 ] as const;
